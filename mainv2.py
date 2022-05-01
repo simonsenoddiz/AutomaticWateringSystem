@@ -17,6 +17,10 @@ pumpeteller = 0 #teller for timing av pumpe.
 
 alarmteller = 0 #teller for å forsinke print og logging av varsel på temperatur.
 
+logtid = 1 #Ved denne verdien skal data logges
+nylog = 599 #Antall sekund før neste logging ved alarm
+
+
 #initialiserer kode, krever input av dato, dette vil gi tidspunkt for data som blir logget.
 print()
 print(" YYYY MM DD HH MM SS")
@@ -202,16 +206,15 @@ while True:
         
         # Alarmlogg ved for høy temperatur
         # Bruker en teller slik at det ikke logges hvert sekund
-        if alarmteller == 1:
+        if alarmteller == logtid:
             
             with open("LoggVanningssytem.txt", mode="a") as f:
                 f.write('--ALARM--FOR HØY TEMPERATUR--\n')
                 f.write('Dato og klokkeslett: ' + str("{:02d}-{:02d}-{:04d} {:02d}:{:02d}:{:02d}".format(dateTime[2],dateTime[1],dateTime[0],dateTime[3],dateTime[4],dateTime[5])) + '\n')
                 f.write('Temperatur: ' + str((t / 100)) + ' °C.\n')
                 f.write('\n')
-                
-        # Etter 10 minutter resettes alarmtelleren
-        if alarmteller == 10:
+        # Etter X sekunder resettes alarmtelleren
+        if alarmteller == nylog:
             alarmteller = 0
 
     elif (t / 100) < 15: 
@@ -220,14 +223,14 @@ while True:
         
         # Alarmlogg ved for lav temperatur
         # Bruker en teller slik at det ikke logges hvert sekund
-        if alarmteller == 1:
+        if alarmteller == logtid:
             with open("LoggVanningssytem.txt", mode="a") as f:
                 f.write('--ALARM--FOR LAV TEMPERATUR--\n')
                 f.write('Dato og klokkeslett: ' + str("{:02d}-{:02d}-{:04d} {:02d}:{:02d}:{:02d}".format(dateTime[2],dateTime[1],dateTime[0],dateTime[3],dateTime[4],dateTime[5])) + '\n')
                 f.write('Temperatur: ' + str((t / 100)) + ' °C.\n')
                 f.write('\n')
-        # Etter 10 minutter resettes alarmtelleren
-        if alarmteller == 10:
+        # Etter X sekunder resettes alarmtelleren
+        if alarmteller == nylog:
             alarmteller = 0
 
 
@@ -236,7 +239,7 @@ while True:
     if vann < tanktomverdi or vannteller != 0:
         vannteller = vannteller + 1
 
-        if vannteller == 1:
+        if vannteller == logtid:
             with open("LoggVanningssytem.txt", mode="a") as f:
                 f.write('Vanntank er tom.\n')
                 f.write('Dato og klokkeslett: ' + str("{:02d}-{:02d}-{:04d} {:02d}:{:02d}:{:02d}".format(dateTime[2],dateTime[1],dateTime[0],dateTime[3],dateTime[4],dateTime[5])) + '\n')
@@ -263,7 +266,7 @@ while True:
             pumpe_on()
 
             #Logging av data når pumpen starter
-            if pumpeteller == 1: # Bruker telleren slik at det bare logges en gang når pumpen går på.
+            if pumpeteller == logtid: # Bruker telleren slik at det bare logges en gang når pumpen går på.
                 with open("LoggVanningssytem.txt", mode="a") as f:
                     f.write('Pumpe aktivert \n')
                     f.write('Dato og klokkeslett: ' + str("{:02d}-{:02d}-{:04d} {:02d}:{:02d}:{:02d}".format(dateTime[2],dateTime[1],dateTime[0],dateTime[3],dateTime[4],dateTime[5])) + '\n')
