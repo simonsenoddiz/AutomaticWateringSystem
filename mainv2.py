@@ -16,7 +16,6 @@ pumpetid = 10 #antall sekunder pumpe kjører når den aktiveres.
 pumpeteller = 0 #teller for timing av pumpe.
 
 alarmteller = 0 #teller for å forsinke print og logging av varsel på temperatur.
-
 logtid = 1 #Ved denne verdien skal data logges
 nylog = 599 #Antall sekund før neste logging ved alarm
 
