@@ -196,7 +196,7 @@ while True:
 
 
 # Printer varsel for "min" og "max" grense for temperatur
-    if (t / 100) > 26: 
+    if (t / 100) > 32: 
         print("Det er skummelt varmt for den lille planten nå.")
         alarmteller = alarmteller + 1
         
@@ -214,7 +214,7 @@ while True:
         if alarmteller == 10:
             alarmteller = 0
 
-    elif (t / 100) < 24: 
+    elif (t / 100) < 15: 
         print("Det er for kaldt for planten nå!")
         alarmteller = alarmteller + 1
         
